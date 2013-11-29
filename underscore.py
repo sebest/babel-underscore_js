@@ -4,18 +4,14 @@ def parse(fileobj):
     line_nb = 0
     for line in fileobj:
         line_nb += 1
-        m = re.match('.*<%=?\s+(?P<js>.*)\s+%>.*', line)
-        if m:
-            js = m.group('js')
-            m = re.match('^\$\._\((?:[\'"])(?P<string>.*)(?:[\'"])\)$', js)
-            if m:
-                yield line_nb, 'gettext', m.group('string')
-                continue
 
-            m = re.match('^\$.*\.ngettext\((?:[\'"])(?P<string1>.*)(?:[\'"]), (?:[\'"])(?P<string2>.*)(?:[\'"]), .*\)$', js)
-            if m:
-                yield line_nb, 'ngettext', m.groups()
-                continue
+        m = re.findall('\$\._\([\'"](.*?)[\'"]\)', line)
+        for res in m:
+            yield line_nb, 'gettext', res
+
+        m = re.search('\$.*\.ngettext\((?:[\'"])(?P<string1>.*)(?:[\'"]),[ ]*(?:[\'"])(?P<string2>.*)(?:[\'"]),.*\)', line)
+        if m:
+            yield line_nb, 'ngettext', m.groups()
 
 def babel_extract(fileobj, keywords, comment_tags, options):
     """Extract messages from XXX files.
@@ -34,6 +30,6 @@ def babel_extract(fileobj, keywords, comment_tags, options):
         yield i[0], i[1], i[2], []
 
 if __name__ == '__main__':
-    fileobj = open('/home/jtrang/webapps/cloudui2/app/templates/test.html')
+    fileobj = open('./test.html')
     for i in parse(fileobj):
         print i

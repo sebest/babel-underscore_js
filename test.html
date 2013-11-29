@@ -1,0 +1,31 @@
+<h1>i18n test</h1>
+<div>
+
+    <%
+        var myHash = {
+            a: $._('key 1'),
+            b: true ? $._('key 2 : voicé$ i ma\' trad2') : $._('key 3'),
+            c: { d: $._('key 4'), e: $._('key 5'), f: $.i18n.sprintf($.i18n.ngettext('key 6 : i have %1$d bird', 'key 6 : i have %1$d birds', 1), 1) }
+        };
+        var myArray = [$._('key 7'), $._('key 8')];
+    %>
+
+    <p>There is a <%= $._('key 9') %> and also a <%= $._('key 10') %></p>
+
+    <%= false || $._('key 11') %>
+
+    <%= $._('key 12') %><br />
+
+    <%= $.i18n.sprintf($.i18n.ngettext('key 13 : i have %1$d dog', 'key 13 : i have %1$d dogs', 1), 1) %><br />
+</div>
+<ul class="nav">
+    <!-- <li><a href="#dashboard">Dashboard</a></li> -->
+    <li class="dropdown">
+        <ul class="dropdown-menu">
+            <li><a href="#"><%= $._('key 14') %></a></li>
+            <li><a href="#"><%= $._('key 15') %></a><a href="#"><%= $.i18n.sprintf($.i18n.ngettext('key 16 : i have %1$d cat', 'key 16 : i have %1$d cats', 1), 1) %></a><a href="#"><%= $._('key 17') %></a></li>
+            <li><a href="#"><% var titi = $._('key 18') %><%= $._('key 19') %></a></li>
+        </ul>
+    </li>
+</ul>
+
